@@ -1,29 +1,14 @@
+// axios
 import axios from '@/plugins/axios';
-export interface SuccessResponse<T = {}> {
-  success: { 
-    message: string; 
-    data: T;
-  };
-}
+// pusher
+import type { Channel } from "pusher-js";
+import pusher from "@/plugins/pusher";
+import type { User } from "./Users";
 
 
-export interface ErrorResponse<T = {}> {
-  error: { 
-    message: string; 
-    data: T;
-  };
-}
+/** __AXIOS TYPES AND CLASSES__ */
 
-export interface TableResponse<T = {}> {
-  data: T[];
-  to: number; 
-  from: number; 
-  total: number; 
-  perPage: number; 
-  lastPage: number; 
-  currentPage: number;
-}
-
+/** [Class] CRUD API default */
 export class CRUDService<Model = {}, CreateParams = Model> {
   base = '';
 
@@ -32,11 +17,11 @@ export class CRUDService<Model = {}, CreateParams = Model> {
   }
   
   list(params?: any) {
-    return axios.get<TableResponse<Model>>(`/${this.base}`, { params });
+    return axios.get<SuccessResponse<TableResponse<Model>>>(`/${this.base}`, { params });
   }
   
   show(id: number) {
-    return axios.get<Model>(`/${this.base}/${id}`);
+    return axios.get<SuccessResponse<Model>>(`/${this.base}/${id}`);
   }
   
   create(data: CreateParams) {
@@ -45,5 +30,96 @@ export class CRUDService<Model = {}, CreateParams = Model> {
 
   delete(id: number) {
     return axios.post<SuccessResponse>(`/${this.base}/${id}/delete`);
+  }
+}
+
+/** [Type] Axios success response */
+export interface SuccessResponse<Data = {}> {
+  success: { 
+    message: string; 
+    data: Data;
+  };
+}
+
+/** [Type] Axios error response */
+export interface ErrorResponse<Data = {}, Errors = {}> {
+  error: {
+    message?: string;
+    errors?: Errors;
+    data?: Data;
+  }
+}
+
+/** [Type] Axios success response for paginated data */
+export interface TableResponse<Data = {}> {
+  data: Data[];
+  to: number; 
+  from: number; 
+  total: number; 
+  perPage: number; 
+  lastPage: number; 
+  currentPage: number;
+}
+
+
+
+/** __PUSHER TYPES AND CLASSES__ */
+
+
+/** [Class] default channel */
+export class PusherChannel {
+  channelName = '';
+  channel: Channel | null = null;
+  
+  constructor(name: string) {
+    this.channelName = name;
+    this.subscribe();
+  }
+
+  subscribe() {
+    return this.channel = pusher.subscribe(this.channelName,);
+  }
+
+  unsubscribe() {
+    this.channel?.unsubscribe();
+  }
+
+  onSubscribe(callback: (...params: any)=>void) {
+    this.channel?.bind('pusher:subscription_succeeded', callback);
+  }
+}
+
+/** [Class] Laravel private channel */
+export class PrivateChannel extends PusherChannel {
+  constructor(name: string) {
+    super(`private-${name}`);
+  }
+}
+
+/** [Class] Laravel presence channel */
+export class PresenceChannel extends PusherChannel {
+  constructor(name: string) {
+    super(`presence-${name}`);
+  }
+
+  /** 
+   * event handler when subscription succeeds 
+   */
+  onSubscribe(callback: (params: { count: number, members: {[s: string | number]: User}, me: User, myID: string })=>void) {
+    this.channel?.bind('pusher:subscription_succeeded', callback);
+  }
+  
+  /** 
+   * event handler when new member joins the chat room 
+   */
+  onMemberAdded(callback: (param: { id: string, info: User })=> void) {
+    this.channel?.bind("pusher:member_added", callback)
+  }
+
+  /** 
+   * event handler when new member joins the chat room 
+   */
+  onMemberRemoved(callback: (param: { id: string, info: User })=> void) {
+    this.channel?.bind("pusher:member_removed", callback)
   }
 }
