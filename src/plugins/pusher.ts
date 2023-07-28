@@ -7,7 +7,7 @@ const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 const pusher = new Pusher('dfc0eac3ee29b5ec1abb', {
   cluster: 'ap1',
-  
+  forceTLS: true,
   /** Handles authorization for private channel */
   authorizer: (channel, _options) => ({
     authorize: async (socketID, callback) => {
