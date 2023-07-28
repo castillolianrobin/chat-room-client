@@ -165,6 +165,7 @@ const showPass = ref(false);
     :error="props.error || errorMessage"
     :error-class="props.errorClass"
     :disabled="disabled"
+    :container-class="props.containerClass"
     v-bind="{ color }" 
   >
     <!-- Prepend -->
@@ -193,7 +194,8 @@ const showPass = ref(false);
           rounded 
           outline-none 
           bg-transparent
-          disabled:text-secondary-400
+          transition-colors autofill:duration-[50000s]
+          disabled:text-white/50
         "
         @keydown="onMultiKeyDownHandler"
         v-bind="$attrs" 
@@ -213,7 +215,8 @@ const showPass = ref(false);
           rounded 
           outline-none 
           bg-transparent
-          disabled:text-secondary-400
+          transition-colors autofill:duration-[50000s]
+          disabled:text-white/50
         "
         :aria-label="props.name || props.label"
         :value="props.modelValue"
@@ -234,8 +237,9 @@ const showPass = ref(false);
           w-full
           rounded 
           outline-none 
-          bg-transparent
-          disabled:text-secondary-400
+          bg-transparent 
+          transition-colors autofill:duration-[50000s]
+          disabled:text-white/50
         "
         :aria-label="props.name || props.label"
         :value="props.modelValue"
@@ -260,3 +264,14 @@ const showPass = ref(false);
     <slot name="append"></slot>
   </AppFormInputContainer>
 </template>
+
+<style>
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+  transition: background-color 5000s;
+  -webkit-text-fill-color: #fff !important;
+} */
+
+</style>

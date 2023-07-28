@@ -3,9 +3,9 @@
 import { ref } from 'vue';
 import type { AxiosError } from 'axios';
 // Components
-import { AppButton, AppCard, AppForm, AppFormDatePicker, AppFormInput } from '@/components/app';
+import { AppButton, AppFormError, AppForm, AppFormInput } from '@/components/app';
 // Services
-import { Users, type CreateUser } from '@/services';
+import { Users } from '@/services';
 import type { ErrorResponse } from '@/services/types';
 // Compsables
 import { matchString } from '@/composables/validation/validations';
@@ -15,8 +15,9 @@ import logo from '@/assets/logo.png';
 const form = ref({
   email: '',
   password: '',
-  verify_password: '',
-  userInfo: { firstName: '', lastName: '', middleName: '', birthday: ''},
+  password_confirmation: '',
+  first_name: '',
+  last_name: '',
 })
 const error = ref('');
 const loading = ref(false);
@@ -35,8 +36,8 @@ async function signupUser(errors: string[]) {
     }
   } catch (e) {
     console.error('Login: Something went wrong', e);
-    const err = (e as AxiosError<ErrorResponse>).response?.data.error
-    error.value = err?.message || '';
+    const err = (e as AxiosError<ErrorResponse<{}, {field: string, message: string}[]>>).response?.data.error.errors
+    error.value = err?.shift()?.message || 'Error!';
   }
   loading.value = false;
 }
@@ -46,178 +47,156 @@ async function signupUser(errors: string[]) {
 <template>
   <div 
     class="
-      w-full h-full 
-      flex flex-col md:flex-row md:justify-center items-center 
-      bg-gradient-to-b 
-      from-secondary-300
-      to-primary-100
-      dark
+      w-full h-full
+      flex 
       overflow-auto md:overflow-hidden
     "
   >
-    <!-- Brand Column -->
-    <div class="px-1 md:px-5">
-      <!-- Logo -->
-      <div 
-        class="
-          md:p-5
-          md:mb-10 
-          h-12 md:h-40
-          rounded-full
-          aspect-square 
-        "
-      >
-        <img 
-          :src="logo" 
-          class="w-full drop-shadow-lg" 
-          alt="Logo" 
-        />
-      </div>
-
-      <!-- Tagline -->
-      <h3 class="hidden md:block leading-normal font-bold text-3xl">
-        <span class="text-white bg-primary-500">PACK</span>
-         YOUR CONSTRUCTION SUPPLY WITHIN THE CONVENIENCE OF YOUR 
-         <span class="text-primary-500">
-          DEVICE.
-         </span>
-      </h3>
-      <p class="mt-5 hidden md:block">
-        Sign up and discover unlimited supplies of construction material varying prices. You don't have spend your time canvassing on multiple locations and phone numbers anymore.
-        <!-- You've got schedules, and budgets to keep. When your team is on pocketyard, you've got everything you need to keep construction moving. All in your pocket. -->
-      </p>
-    </div>
-    <!-- Register column -->
-    <AppCard 
+  <!-- Register column -->
+  <div 
       class="
-        my-5 mx-2 p-4 md:ml-auto md:mr-0 lg:px-10
-        flex-srhink md:flex-shrink-0 
-        w-[650px] max-w-[98%]
-        md:h-full md:overflow-auto
+        relative
+        w-full
+        flex flex-col items-center justify-center
       "
     >
-      <div v-if="success">
-        <div class="text-center">
-          <h1 class="text-2xl font-bold text-primary-500">
-            Successfully Registered! 
-          </h1>
 
-          <p class="mt-5">
-            Please check your email for the verification link.
-          </p>
-        </div>
-      </div>
-      <div v-else>
-        <div class="text-center ">
-          <h1 class="mb-2 text-2xl text-primary-500">
-            <span>Sign Up</span> 
-          </h1>
-    
-          <!-- <p class="mx-5 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p> -->
-        </div>
-  
-        <AppForm 
-          class="mt-5 flex flex-col gap-2"
-          @validate="signupUser"
-        >
-          <h3 class="font-semibold">
-            Credentials
-          </h3>
-          <AppFormInput
-            v-model="form.email"
-            :disabled="loading"
-            label="Email"
-            name="Email"
-            placeholder="username_1@email.com"
-            validations="required | email"
-          ></AppFormInput>
-  
-          <div class="gap-3 grid grid-cols-1 md:grid-cols-2">
-            <AppFormInput
-              v-model="form.password"
-              :disabled="loading"
-              name="Password"
-              type="password"
-              label="Password"
-              placeholder="******"
-              validations="required"
-            ></AppFormInput>
-
-            <AppFormInput
-              v-model="form.verify_password"
-              :disabled="loading"
-              type="password"
-              label="Verify Password"
-              placeholder="******"
-              :validations="[
-                'required', 
-                matchString(form.password, 'Password')
-              ]"
-            ></AppFormInput>
-
-          </div>
-          <h3 class="mt-2 font-semibold">
-            Basic Information
-          </h3>
-
-          <div class="grid gap-3 grid-cols-1 md:grid-cols-2">
-
-            <AppFormInput
-              v-model="form.userInfo.firstName"
-              :disabled="loading"
-              name="First Name"
-              label="First Name"
-              placeholder="Juan"
-              validations="required"
-            ></AppFormInput>
-    
-            <AppFormInput
-              v-model="form.userInfo.lastName"
-              :disabled="loading"
-              name="Last Name"
-              label="Last Name"
-              placeholder="Dela Cruz"
-              validations="required"
-            ></AppFormInput>
-    
-            <AppFormInput
-              v-model="form.userInfo.middleName"
-              :disabled="loading"
-              name="Middle Name"
-              label="Middle Name"
-              placeholder="Siena"
-              validations="required"
-            ></AppFormInput>
-  
-            <AppFormDatePicker
-              v-model="form.userInfo.birthday"
-              :disabled="loading"
-              label="Birthday"
-              as-single
-            ></AppFormDatePicker>
-    
-          </div>
-          
-
-          <AppButton 
-            :loading="loading"
-            class="mt-10 w-full" 
-            type="submit"
-          >
-            Submit
-          </AppButton>
-        </AppForm>
-      </div>
-
-      <AppButton
-        :to="{ name: 'Login' }"
-        variant="text" 
-        class="mt-5 mx-auto"
+      <div 
+        class="
+          w-full max-w-[450px] 
+          flex flex-col
+        "
       >
-        Back to Login
-      </AppButton>
-    </AppCard>
-    <div class="">
+        <h1 class="text-2xl text-center flex items-center justify-center">
+          <span>Be part of chat communities</span> 
+          <!-- <AppTooltip
+            class="ml-3"
+            tooltip-text="email: test@email.com | password: pass123"
+          ></AppTooltip> -->
+        </h1>
+        <div
+          class="
+            relative
+            p-5
+            flex-srhink md:flex-shrink-0 
+            w-full
+            md:overflow-auto
+          "
+        >
+          <div v-if="success">
+            <div class="text-center">
+              <h1 class="text-2xl font-bold text-primary-500">
+                Successfully Registered! 
+              </h1>
+
+              <p class="mt-5">
+                Please check your email for the verification link.
+              </p>
+            </div>
+          </div>
+          <div v-else>  
+            <AppForm 
+              class="mt-5 flex flex-col gap-5"
+              @validate="signupUser"
+            >
+              <!-- Login Credentials -->
+              <div class="relative flex items-center justify-center">
+                <div class="absolute h-0.5 w-full bg-secondary-500"></div>
+                <h3 class="bg-black relative px-5">Login Credentials</h3>
+              </div>
+
+              <!-- Email -->
+              <AppFormInput
+                v-model="form.email"
+                :disabled="loading"
+                label="Email"
+                name="Email"
+                placeholder="username_1@email.com"
+                validations="required | email"
+              ></AppFormInput>
+      
+              <!-- Password -->
+              <div class="gap-3 grid grid-cols-1 md:grid-cols-1">
+                <AppFormInput
+                  v-model="form.password"
+                  :disabled="loading"
+                  name="Password"
+                  type="password"
+                  label="Password"
+                  placeholder="******"
+                  validations="required"
+                ></AppFormInput>
+
+                <AppFormInput
+                  v-model="form.password_confirmation"
+                  :disabled="loading"
+                  type="password"
+                  label="Verify Password"
+                  placeholder="******"
+                  :validations="[
+                    'required', 
+                    matchString(form.password, 'Password')
+                  ]"
+                ></AppFormInput>
+
+              </div>
+
+              <!-- Basic Information -->
+              <div class="relative flex items-center justify-center">
+                <div class="absolute h-0.5 w-full bg-secondary-500"></div>
+                <h3 class="bg-black relative px-5">Basic Information</h3>
+              </div>
+
+              <div class="grid gap-3 md:grid-cols-2">
+                <!-- First Name  -->
+                <AppFormInput
+                  v-model="form.first_name"
+                  :disabled="loading"
+                  name="First Name"
+                  label="First Name"
+                  placeholder="Juan"
+                  validations="required"
+                ></AppFormInput>
+                
+                <!-- Last Name -->
+                <AppFormInput
+                  v-model="form.last_name"
+                  :disabled="loading"
+                  name="Last Name"
+                  label="Last Name"
+                  placeholder="Dela Cruz"
+                  validations="required"
+                ></AppFormInput>
+        
+              </div>
+              
+              <AppFormError 
+                :error="error" 
+                class="text-center"
+              ></AppFormError>
+
+              <AppButton 
+                :loading="loading"
+                class="w-full" 
+                type="submit"
+              >
+                Sign up
+              </AppButton>
+
+            </AppForm>
+          </div>
+
+          <AppButton
+            :to="{ name: 'Login' }"
+            variant="text" 
+            class="mx-auto font-semibold"
+          >
+            Back to Login
+          </AppButton>
+        </div>
+      </div>
+
+    
     </div>
   </div>
 </template>

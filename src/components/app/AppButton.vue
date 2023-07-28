@@ -25,9 +25,9 @@ const { color } = useThemedColor(toRef(props, 'color'));
 
 const sizeClass = computed(()=>{
   switch (props.size) {
-    case 'lg': return 'text-lg py-1.5 px-2.5';  
+    case 'lg': return 'text-lg py-3 px-4';  
     case 'sm': return 'text-sm px-1 py-0.5';  
-    case 'md': default: return 'py-1 px-2';
+    case 'md': default: return 'text-base py-2 px-3';
   }
 });
 const bgClass = computed(()=>{
@@ -60,6 +60,7 @@ const textClass = computed(()=>{
       ...[ sizeClass, bgClass, textClass, borderClass ],
       `focus:outline-${color}/25 outline-2`,
       {
+        'rounded-md': !(typeof $attrs?.class === 'string' && $attrs?.class?.includes('rounded')),
         ['cursor-default']: props.disabled || props.loading,
         ['hover:shadow']: 
           props.variant !== 'text' && !props.disabled && !props.loading,
@@ -70,7 +71,7 @@ const textClass = computed(()=>{
     class="
       relative
       flex items-center justify-center
-      rounded border-2
+      border-2
       transition
       disabled:opacity-75
     "
@@ -82,7 +83,10 @@ const textClass = computed(()=>{
       class="absolute"
       v-bind="{ color }"
     ></AppLoading>
-    <span :class="{ 'opacity-0': props.loading }">
+    <span
+      class="flex gap-2 items-center"
+      :class="{ 'opacity-0': props.loading }"
+    >
       <slot></slot>
     </span>
   </component>

@@ -7,60 +7,32 @@ import { executeMiddlewares } from '@/middlewares';
 // Extra Routes
 // import dashboardRoutes from './dashboardRoutes';
 import componentRoutes from './componentRoutes';
-// Modules
-import userRoutes from '@/modules/User/user.routes';
-import authRoutes from '@/modules/Auth/auth.routes';
-import dashboardRoutes from '@/modules/Dashboard/dashboard.routes';
-import productRoutes from '@/modules/Product/product.routes';
+// Loading pinia store
 import { usePageLoadStore } from '@/stores/pageLoadStore';
-import ordersRoutes from '@/modules/Orders/orders.routes';
+// Modules
+import authRoutes from '@/modules/Auth/auth.routes';
+import chatsRoutes from '@/modules/Chats/chats.routes';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      component: authRoutes.find(route=>route.name==='Login')?.component || HomeViewVue,
+      meta: {  layout: 'Auth' },
+      name: 'Home',
       path: '/',
-      component: HomeViewVue  ,
-      meta: { layout: 'Default' },
     },
-    // {
-    //   path: '/login',
-    //   name: 'Login',
-    //   component: ()=>import('@/views/public/LoginView.vue'),
-    //   meta: { layout: 'Default' },
-    // },
-    // {
-    //   path: '/signup',
-    //   name: 'SignUp',
-    //   component: ()=>import('@/views/public/SignUpView.vue'),
-    //   meta: { layout: 'Default' },
-    // },
-    // {
-    //   path: '/verify',
-    //   name: 'VerifyUser',
-    //   component: ()=>import('@/views/public/VerifyAccountView.vue'),
-    //   meta: { layout: 'Default' },
-    // },
     ...authRoutes,
 
-    // Dashboard Routes
     {
-      path: '/dashboard',
+      path: '/chat',
       component: RouterView,
-      meta: { 
-        layout: 'Dashboard', 
-        // middleware: [ authentication ] 
-      },
-      children: [
-        ...dashboardRoutes,
-        ...userRoutes,
-        ...productRoutes,
-        ...ordersRoutes,
-        // ...dashboardRoutes,
-      ],
+      children: chatsRoutes,
     },
 
-    // Component Kit Routes
+
+    /** __Component Kit Routes__ */
     {
       path: '/_component',
       component: LayoutDefault,

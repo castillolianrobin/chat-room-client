@@ -2,7 +2,7 @@ import router from '@/router';
 import { useAuthStore } from '@/stores/authStore';
 import axios, { AxiosError } from 'axios';
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 
 

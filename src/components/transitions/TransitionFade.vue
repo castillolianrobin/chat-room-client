@@ -15,6 +15,7 @@ const props = defineProps({
     leave-active-class="duration-150 ease-in"
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
+    mode="out-in"
   >
     <slot></slot>
   </component>

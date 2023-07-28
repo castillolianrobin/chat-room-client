@@ -28,8 +28,13 @@ export class CRUDService<Model = {}, CreateParams = Model> {
     return axios.post<SuccessResponse<Model>>(`/${this.base}/`, data);
   }
 
+  
+  update(id:number, data: CreateParams) {
+    return axios.post<SuccessResponse<Model>>(`/${this.base}/${id}`, { ...data, _method: 'PUT' });
+  }
+
   delete(id: number) {
-    return axios.post<SuccessResponse>(`/${this.base}/${id}/delete`);
+    return axios.post<SuccessResponse>(`/${this.base}/${id}`, { _method: 'DELETE' });
   }
 }
 

@@ -8,7 +8,7 @@ class Users extends CRUDService<User, CreateUser>{
 
   // Auth
   login(params?: any) {
-    return axios.post<SuccessResponse<User>>(`/login`, params);
+    return axios.post<SuccessResponse<{user:User; token: string}>>(`/login`, params);
   }
   logout(params?: any) {
     return axios.post<SuccessResponse<User>>(`/logout`, params);
@@ -26,16 +26,16 @@ export default new Users();
 
 /** __TYPE DEFINITION__ */
 
-export interface User<userInfo = UserInfo, userType = UserType> {
+export interface User {
   email: string;
   password?: string;
   id: number;
   token?: string; 
-  tokenExpiration?: string;
-  userInfo?: userInfo;
-  userType?: userType;
-  updatedAt: string;
-  createdAt: string;
+  // tokenExpiration?: string;
+  first_name?: string;
+  last_name?: string;
+  updated_at: string;
+  created_at: string;
 }
 
 export interface UserInfo {
@@ -44,22 +44,12 @@ export interface UserInfo {
   middleName?: string;
   birthday?: string;
 }
- 
-export interface UserType {
-  id: number;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-
 export interface CreateUser extends Modify<User,{
   id?: number;
   password: string, 
-  verify_password: string, 
-  userInfo: Modify<UserInfo, { birthday: string }>;
-  userType?: string;
-  updatedAt?: string;
-  createdAt?: string;
+  password_confirmation: string, 
+  updated_at?: string;
+  created_at?: string;
 }> {}
 
 type Modify<T, R> = Omit<T, keyof R> & R;

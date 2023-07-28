@@ -6,7 +6,7 @@ export const useAuthStore = defineStore('user', () => {
   const user = ref<User>(getRememberedUser());
   // const token = computed(() => user.value?.token)
   
-  function setUser(_user: any) {
+  function setUser(_user: User) {
     user.value = _user;
     localStorage.setItem(storageUserKey, JSON.stringify(_user));
   }

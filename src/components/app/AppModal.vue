@@ -60,7 +60,7 @@ function toggleModal(state: boolean | null = null) {
           fixed top-0 left-0
           flex items-center justify-center 
           w-screen h-screen 
-          bg-black/50`,
+          bg-black/50 backdrop-blur`,
         ]"
         @click.self="!persist && toggleModal(false)"
         @mousedown.self="isClicked = true"
@@ -83,7 +83,8 @@ function toggleModal(state: boolean | null = null) {
                 relative 
                 py-4 p-2
                 rounded shadow
-                bg-white dark:bg-secondary-900
+                border border-white/20
+                bg-black dark:bg-secondary-900
                 max-w-[95vw]
               "
             >

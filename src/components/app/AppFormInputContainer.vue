@@ -15,13 +15,13 @@ const props = defineProps({
 const colorInactive = computed(():ThemeColors => {
   if (props.error) return 'error-500';
   else if (props.disabled) return 'secondary-400';
-  else return 'secondary-500';
+  else return 'primary-500';
 } )
 
 </script>
 
 <template>
-  <div class="group dark:text-secondary-100">
+  <div class="group dark:text-white flex flex-col gap-1.5">
     <!-- Label -->
     <AppFormLabel 
       :required="props.required"
@@ -38,18 +38,31 @@ const colorInactive = computed(():ThemeColors => {
     <!-- Input Container -->
     <div
       :class="[`
-          p-1
+          p-3
           flex
-          bg-white/10
-          rounded
+          bg-black
+          rounded-md
           border border-${colorInactive} group-focus-within:border-${props.color}
           outline-1 outline-${props.color} group-focus-within:outline 
           transition-all
+          relative
         `,
         props.containerClass,
       ]"
     >
-      <slot></slot>
+      <div 
+        class="
+          absolute 
+          bg-white/10 
+          w-full 
+          h-full 
+          left-0 
+          top-0
+        "
+      ></div>
+      <div class="relative flex-grow">
+        <slot></slot>
+      </div>
     </div>
     
     <!-- Error -->

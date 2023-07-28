@@ -55,7 +55,7 @@ function onChangeHandler() {
   <div class="inline dark:text-secondary-100">
     <div 
       :class="{ 'group cursor-pointer': !props.disabled }"
-      class="flex gap-1 flex-nowrap items-center"
+      class="flex gap-2 flex-nowrap items-center"
       :aria-checked="isActive"
       :aria-disabled="props.disabled"
       role="checkbox"
@@ -74,8 +74,10 @@ function onChangeHandler() {
             w-9 h-5 
             border border-secondary-500 
             rounded-full
-            outline-secondary-300
+            outline-secondary-300 
+            transition-colors
           "
+          :class="{ 'bg-primary-500/50': isActive }"
           @keypress.space="onChangeHandler"
         >
           <div class=" relative w-full h-full">

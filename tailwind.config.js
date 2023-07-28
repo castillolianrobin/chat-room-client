@@ -12,7 +12,7 @@ module.exports = {
   darkMode: 'class',
   safelist: [
     {
-      pattern: /(bg|text|border|outline|fill)-(primary|secondary|success|error|warning)-(200|500)/,
+      pattern: /(bg|text|border|outline|fill)-(primary|secondary|accent|success|error|warning)-(200|500)/,
       variants: ['active', 'hover', 'focus', 'group-focus-within', 'group-hover', 'disabled', 'even'],
     },
     {
@@ -23,18 +23,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: colors.emerald,
-        secondary: colors.zinc,
+        primary: { ...colors.purple, 500: '#E607FD', 600: '#BB0AB8' },
+        secondary: { ...colors.indigo, 400: '#9F07FF', 500: ' #8106cf' },
+        accent: { ...colors.green, 500: ' #12EE49' },
         info: colors.blue,
         alert: colors.orange,
         error: colors.red,
         success: colors.green,
+        black: '#272727',
+        white: '#efefef',
         // Date Picker colors
-        "vtd-primary": colors.emerald,
-        "vtd-secondary": colors.zinc,
+        // "vtd-primary": colors.emerald,
+        // "vtd-secondary": colors.zinc,
       },
       gridTemplateColumns: {
-        dashboard: "auto 1fr",
+        dashboard: "1fr",
       },
       gridTemplateRows: {
         dashboard: "auto 1fr",

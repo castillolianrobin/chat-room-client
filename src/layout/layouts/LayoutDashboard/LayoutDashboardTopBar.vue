@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 // Components
-import { ToggleDarkMode } from '@/components';
 import { AppButton, AppModal } from '@/components/app';
 import { ArrowLeftOnRectangleIcon as LogoutIcon } from '@heroicons/vue/24/solid';
 // Services
@@ -45,22 +44,17 @@ async function logOut() {
 <template>
   <header 
     class="
-      px-1 md:px-3 py-1
+      px-3 py-2
       flex items-center
-      bg-secondary-50 dark:bg-secondary-800
-      text-black dark:text-white
+      bg-secondary-500
+      text-white
       shadow-md 
-      border-b dark:border-secondary-700
     "
   >
     <!-- Title -->
     <h1 class="mx-3 my-2 flex-grow font-bold truncate hidden md:block ">
-      {{ title || 'Pack-it Portal' }}
+      {{ title || 'Chat Rooms' }}
     </h1>
-
-    <ToggleDarkMode 
-      :options="{ selector: '#layout-dashboard' }"
-    ></ToggleDarkMode>
 
     <!-- Log Out Modal -->
     <AppModal :persist="logoutLoading">
@@ -68,7 +62,7 @@ async function logOut() {
         <AppButton 
           variant="text"
           size="sm" 
-          color="secondary-500"
+          color="white"
           class="ml-1"
           @click="toggleModal"
         >
