@@ -135,8 +135,19 @@ const isLoggedUserAdmin = computed(()=>{
     ?.members
     ?.find(mem=>mem.id === user?.id)?.chat_room_members?.is_admin;
 });
-// :online="!!roomMembers.find(mem=>mem.id === member.id)"
 
+
+const leaveRoomLoading = ref(false);
+async function leaveRoom() {
+  leaveRoomLoading.value = true;
+  try {
+    await chatRoomMembers.removeMembership();
+    router.push({ name: 'ChatRoomList' }); 
+  } catch {
+    alert('There was a problem trying to leave. Try again later.');
+  }
+  leaveRoomLoading.value = false;
+}
 
 /** Add Member */
 
@@ -335,16 +346,15 @@ async function sendMessage(error: string[]) {
                     <div class="mt-5 grid grid-cols-2 gap-5">
                       <AppButton
                         color="secondary-500"
-                        :loading="deleteRoomLoading"
+                        :loading="leaveRoomLoading"
                         @click="toggleModal(false)"
                       >
                         Cancel
                       </AppButton>
                       <AppButton 
                         color="error-500"
-                        :disabled="deleteRoomConfirm !== roomData?.name"
-                        :loading="deleteRoomLoading"
-                        @click="deleteRoom"
+                        :loading="leaveRoomLoading"
+                        @click="leaveRoom"
                       >
                         Leave
                       </AppButton>

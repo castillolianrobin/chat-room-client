@@ -13,6 +13,10 @@ class ChatRoomMembers extends CRUDService<ChatRoomMember, CreateRoomMember>{
   list2(params?: any) {
     return axios.get<SuccessResponse<ChatRoomMember[]>>(`/${this.base}`, { params });
   }
+
+  removeMembership() {
+    return axios.post<SuccessResponse>(`/${this.base}/leave`);
+  }
 }
 
 export default ChatRoomMembers
