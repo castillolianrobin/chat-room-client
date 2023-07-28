@@ -32,9 +32,9 @@ const createdAt = computed(()=>props.created_at
       flex flex-col
     "
     :class="{
-      'ml-auto items-end': props.sender_id === userInfo.id,
-      'bg-primary-500':  props.sender_id === userInfo.id,
-      'bg-secondary-500':  props.sender_id !== userInfo.id,
+      'ml-auto items-end': props.sender_id === userInfo?.id,
+      'bg-primary-500':  props.sender_id === userInfo?.id,
+      'bg-secondary-500':  props.sender_id !== userInfo?.id,
     }"
   >
     <p class="text-sm font-light opacity-70">

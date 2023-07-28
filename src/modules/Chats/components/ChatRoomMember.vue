@@ -22,7 +22,7 @@ const { user } = useAuthStore()
   >
     <AppChip
       class="w-6 aspect-square relative"
-      :color="props.id === user.id ? 'primary-500' : 'secondary-500'"
+      :color="props.id === user?.id ? 'primary-500' : 'secondary-500'"
     >
       <UserIcon class="h-full"></UserIcon>
       <span

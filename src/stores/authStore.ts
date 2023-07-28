@@ -3,10 +3,10 @@ import { defineStore } from 'pinia'
 import type { User } from '@/services/Users';
 
 export const useAuthStore = defineStore('user', () => { 
-  const user = ref<User>(getRememberedUser());
+  const user = ref<User | null>(getRememberedUser());
   // const token = computed(() => user.value?.token)
   
-  function setUser(_user: User) {
+  function setUser(_user: User | null) {
     user.value = _user;
     localStorage.setItem(storageUserKey, JSON.stringify(_user));
   }

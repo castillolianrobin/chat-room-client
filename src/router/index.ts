@@ -1,6 +1,5 @@
 import { RouterView, createRouter, createWebHistory } from 'vue-router'
 import LayoutDefault from '@/layout/layouts/LayoutDefault.vue'
-import HomeViewVue from '@/views/public/HomeView.vue';
 // Middleware
 import authentication from '@/middlewares/authentication';
 import { executeMiddlewares } from '@/middlewares';
@@ -18,7 +17,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      component: authRoutes.find(route=>route.name==='Login')?.component || HomeViewVue,
+      component: authRoutes.find(route=>route.name==='Login')?.component || RouterView,
       meta: {  layout: 'Auth' },
       name: 'Home',
       path: '/',
@@ -29,6 +28,7 @@ const router = createRouter({
       path: '/chat',
       component: RouterView,
       children: chatsRoutes,
+      meta: { middleware: [authentication] }
     },
 
 
