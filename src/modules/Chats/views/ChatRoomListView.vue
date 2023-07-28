@@ -49,7 +49,7 @@ async function fetchRooms() {
   fetchRoomLoading.value = true;
   try {
     const response = await ChatRooms.list2();
-    chatRoom.value = response.data.success.data;
+    chatRoom.value = response.data.success.data || [];
   } catch {
     alert('An error occured.');
   }
