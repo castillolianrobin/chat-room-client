@@ -18,7 +18,6 @@ export const defaultSlotTest = (component:any, options?:MountOptionsParams, exec
       try { await executables.afterMount(wrapper) } 
       catch(e) { console.error(e) }
     }
-    console.log('after emit')
     executables?.afterMount && console.log();
 
     

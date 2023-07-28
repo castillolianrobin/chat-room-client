@@ -11,7 +11,6 @@ let interValId: ReturnType<typeof setInterval>;
 
 function runLoading() {
   loadingPercent.value += 5;
-  // console.log('test',)
   if (loadingPercent.value > 60) {
     clearInterval(interValId);
   }

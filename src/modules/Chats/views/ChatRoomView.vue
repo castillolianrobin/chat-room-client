@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted,  ref } from 'vue';
+import { computed, onMounted, onUnmounted,  ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import type { AxiosError } from 'axios';
 // Components
@@ -63,7 +63,6 @@ onMounted(()=>{
   /** New Message Subscribtion  */
   chatRoomsChannel.onMessageCreated((newMessage)=> {
     const message = newMessage.message;
-    console.log(roomMembers.value)
     message.user = roomMembers.value
       .find(user=>user.id == message.sender_id)
     
@@ -129,6 +128,15 @@ async function deleteRoom() {
 
 
 /** ROOM MEMBER LOGIC */
+
+/** User Membership */
+const isLoggedUserAdmin = computed(()=>{
+  return !!roomData.value
+    ?.members
+    ?.find(mem=>mem.id === user?.id)?.chat_room_members?.is_admin;
+});
+// :online="!!roomMembers.find(mem=>mem.id === member.id)"
+
 
 /** Add Member */
 
@@ -243,7 +251,10 @@ async function sendMessage(error: string[]) {
             <!-- Actions -->
             <div class="ml-auto flex items-center">
               <!-- Edit Room Btn -->
-              <AppTooltip tooltip-text="Edit">
+              <AppTooltip 
+                v-if="isLoggedUserAdmin" 
+                tooltip-text="Edit"
+              >
                 <AppButton 
                   size="sm"
                   color="white" 
@@ -256,7 +267,7 @@ async function sendMessage(error: string[]) {
               </AppTooltip>
 
               <!-- Delete Room Modal -->
-              <AppModal>
+              <AppModal v-if="isLoggedUserAdmin">
                 <!-- Trigger -->
                 <template #trigger="{ toggleModal }">
                   <AppTooltip tooltip-text="Delete">
@@ -394,7 +405,7 @@ async function sendMessage(error: string[]) {
 
           <!-- Add Member Modal -->
           <AppModal 
-            v-if="roomData?.is_private" 
+            v-if="roomData?.is_private && isLoggedUserAdmin" 
             close-icon
           >
             

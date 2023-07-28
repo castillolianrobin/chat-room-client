@@ -54,7 +54,6 @@ const hoverValue = ref(0);
 
 function onHover(hoverRate = 0) {
   if (props.disabled || 'readonly' in  attrs) return;
-  console.log(attrs)
   hoverValue.value = hoverRate;
 }
 

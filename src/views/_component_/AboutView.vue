@@ -14,9 +14,6 @@ const selectItem = [
   { value: 'value 1', label: 'Label 1' },
   { value: 'value 3', label: 'Label 3' },
 ]
-function testValidation() {
-  console.log('test')
-}
 </script>
 
 <template>

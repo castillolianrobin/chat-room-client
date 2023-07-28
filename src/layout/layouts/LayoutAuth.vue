@@ -5,7 +5,6 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const layoutShift = computed(()=>!!route.meta.layoutShift);
-console.log('test');
 </script>
 
 <template>

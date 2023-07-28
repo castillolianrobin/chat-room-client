@@ -32,7 +32,6 @@ async function signupUser(errors: string[]) {
     const registeredUser = response.data.success.data;
     if (response.data.success) {
       success.value = true;
-      console.log(registeredUser);
     }
   } catch (e) {
     console.error('Login: Something went wrong', e);

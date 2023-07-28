@@ -37,7 +37,6 @@ describe(name, async ()=> {
             configurable: true, 
           })
           dT.files.push(largeFile);
-          console.log(dT.files, 'asda')
           await wrapper.setProps({
             'onUpdate:modelValue': (e:File[]) => wrapper.setProps({modelValue: e}),
           });
