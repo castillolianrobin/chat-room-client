@@ -90,7 +90,7 @@ async function signupUser(errors: string[]) {
               </h1>
 
               <p class="mt-5">
-                Please check your email for the verification link.
+                You can now login and start joining chat rooms.
               </p>
             </div>
           </div>
