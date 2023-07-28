@@ -64,7 +64,7 @@ const selectItem = [
     ></AppFormTextArea>
   
     
-    <AppForm @validate="testValidation">
+    <AppForm>
       <AppFormInput
           v-model="testInpput"
           label="Label 1"
