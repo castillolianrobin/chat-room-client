@@ -12,7 +12,7 @@
 
 <div style="overflow: hidden; border-radius: 12px; margin: auto; display: block;" >
     <img 
-        src="https://raw.githubusercontent.com/castillolianrobin/chat-room-client/main/public/home_sample.png" 
+        src="https://raw.githubusercontent.com/castillolianrobin/chat-room-client/main/public/sample-image.jpg" 
     />
 </div>
 
