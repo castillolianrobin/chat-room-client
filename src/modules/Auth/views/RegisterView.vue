@@ -35,8 +35,8 @@ async function signupUser(errors: string[]) {
     }
   } catch (e) {
     console.error('Login: Something went wrong', e);
-    const err = (e as AxiosError<ErrorResponse<{}, {field: string, message: string}[]>>).response?.data.error.errors
-    error.value = err?.shift()?.message || 'Error!';
+    const err = (e as AxiosError<ErrorResponse<{}, object>>).response?.data.error.errors
+    error.value = (Object.values(err || {}))?.shift() || 'Error!';
   }
   loading.value = false;
 }
