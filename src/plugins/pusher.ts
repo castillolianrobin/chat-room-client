@@ -22,7 +22,8 @@ const pusher = new Pusher('dfc0eac3ee29b5ec1abb', {
             headers: {
               "Authorization": user ? `Bearer ${user?.token}` : '', 
              "Access-Control-Allow-Origin": "*"
-            }
+            },
+            withCredentials: true,
           });
           callback(null, authData.data as ChannelAuthorizationData);
       } catch (e) {
