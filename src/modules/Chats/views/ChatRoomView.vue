@@ -312,7 +312,7 @@ async function sendMessage(error: string[]) {
               </AppModal>
 
               <!-- Leave Room Modal -->
-              <AppModal>
+              <AppModal v-if="roomData?.is_private">
                 <!-- Trigger -->
                 <template #trigger="{ toggleModal }">
                   <AppTooltip tooltip-text="Leave Room">
