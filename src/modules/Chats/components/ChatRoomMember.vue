@@ -27,13 +27,13 @@ const { user } = useAuthStore()
       <UserIcon class="h-full"></UserIcon>
       <span
         class="
-          absolute bottom-0 right-0 
-          border-[4px] 
+          absolute -bottom-0.5 -right-0.5 
+          p-1 border border-black
           rounded-full
-        "
+        " 
         :class="props.online 
-          ? 'border-accent-500' 
-          : 'border-white/80'
+          ? 'bg-success-500' 
+          : 'bg-white/80'
         "
     ></span>
     </AppChip>
