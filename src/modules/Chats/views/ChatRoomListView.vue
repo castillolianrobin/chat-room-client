@@ -175,13 +175,13 @@ fetchRooms();
     >
       <h3
         v-if="rooms.rooms.length > 0"
-        class="text-lg font-bold"
+        class="text-lg font-bold text-white"
       >
         {{  rooms.name  }}
       </h3>
       <div
         class="
-          p-2 md:p-5 
+          py-2 md:py-5 
           grid md:grid-cols-4 gap-2 md:gap-5
         "
       >
@@ -201,7 +201,7 @@ fetchRooms();
             :to="{ name: 'ChatRoom', params: { id: room.id }}"
           >
             <div class="flex gap-2 items-center">
-              <h5 class="font-bold">
+              <h5 class="font-semibold">
                 {{ room.name }}
               </h5>
               <span 
