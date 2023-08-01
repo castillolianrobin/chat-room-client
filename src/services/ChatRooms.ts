@@ -31,5 +31,6 @@ export interface ChatRoomUser extends User {
   chat_room_members?: ChatRoomMember
 }
 export interface CreateChatRoom {
-  name: string;  
+  name: string;
+  is_private: boolean;  
 }

@@ -68,6 +68,7 @@ function onChangeHandler() {
         <div 
           v-if="props.toggleInput"
           :tabindex="props.disabled ? undefined : 0"
+          :aria-label="props.label"
           class="
             p-[1px] 
             mr-2 
@@ -95,6 +96,7 @@ function onChangeHandler() {
         <div 
           v-else
           :tabindex="props.disabled ? undefined : 0"
+          :aria-label="props.label"
           :class="[
             `
               mt-0.5 

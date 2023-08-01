@@ -8,27 +8,6 @@ import ChatRooms from '@/services/ChatRooms';
 import type { ChatRoom } from '@/services/ChatRooms';
 
 
-const chatRoomSample = [
-  {
-    id: 1,
-    name: 'General',
-  },
-  {
-    id: 2,
-    name: 'Others',
-  },
-
-  {
-    id: 3,
-    name: 'Others',
-  },
-  
-  {
-    id: 4,
-    name: 'Others',
-  },
-];
-
 const chatRoom = ref<ChatRoom[]>([]);
 const chatRoomLabeled = computed(()=>[
   {
@@ -70,7 +49,7 @@ async function createRoom(error: string[]) {
   createRoomLoading.value = true;
   try {
     const response = await ChatRooms.create(createRoomForm.value);
-    if (response.status === 200) {
+    if (response.status === 201) {
       createRoomSuccess.value = true;
       chatRoom.value.push(response.data.success.data)
     }
@@ -99,13 +78,14 @@ fetchRooms();
           "
         >
           <p>New Room Created!</p>
-          <AppButton color="secondary-500" @click="toggleModal">
+          <AppButton color="secondary-500" @click="toggleModal(), createRoomSuccess = false">
             Confirm
           </AppButton>
         </div>
         <AppForm
           v-else 
           class="p-5 flex flex-col gap-5"
+          aria-label="create room form"
           @validate="createRoom"
         >
           <p>Please provide a name for your new room</p>
@@ -150,7 +130,8 @@ fetchRooms();
         <div class="fixed right-5 bottom-5">
           <AppTooltip tooltip-text="Create new room" direction="left">
             <AppButton 
-              class="rounded-full aspect-square" 
+              class="rounded-full aspect-square"
+              aria-label="create room button" 
               @click="toggleModal"
             >
               <PlusIcon class="h-6 w-6"></PlusIcon>
