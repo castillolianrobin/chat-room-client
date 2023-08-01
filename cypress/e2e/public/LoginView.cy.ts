@@ -11,7 +11,7 @@ describe('Login Page', () => {
   })
   
   // Username Validation
-  it('validates username', ()=> {
+  it('validates email', ()=> {
     goToLogin();
     login('', '', true);
     inputErrorContains(loginForm.username, requiredText);
@@ -28,13 +28,13 @@ describe('Login Page', () => {
   })
 
   // // Submit Validation
-  it('redirects to /dashboard if valid', ()=> {
+  it('redirects to /chats if valid', ()=> {
     goToLogin();
     login('username@gmail.com', 'random', true);
-    const formError = "Incorrect email or password";
+    const formError = "Unauthorized";
     cy.get(loginForm.error).contains(formError);
     
     login('test@email.com', 'pass123', true);
-    cy.url().should('contain', '/dashboard');
+    cy.url().should('contain', '/chat');
   })
 })

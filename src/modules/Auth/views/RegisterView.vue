@@ -172,6 +172,7 @@ async function signupUser(errors: string[]) {
               <AppFormError 
                 :error="error" 
                 class="text-center"
+                aria-label="form-error"
               ></AppFormError>
 
               <AppButton 

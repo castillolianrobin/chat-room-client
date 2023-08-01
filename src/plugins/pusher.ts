@@ -31,13 +31,5 @@ const pusher = new Pusher('dfc0eac3ee29b5ec1abb', {
       }
     },
   }),
-
-  // authEndpoint: baseURL + '/broadcasting/auth',
-  // auth: {
-  //   headers: {
-  //     "Authorization": useAuthStore().user ? `Bearer ${useAuthStore().user?.token}` : '',
-  //     "Access-Control-Allow-Origin": "*"
-  //   },
-  // },
 });
 export default pusher;

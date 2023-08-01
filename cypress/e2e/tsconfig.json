@@ -2,6 +2,11 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["./**/*", "../support/**/*"],
   "compilerOptions": {
+    // workaround for https://github.com/vuejs/tsconfig/issues/6
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove",
+    "verbatimModuleSyntax": true,
+    // end workaround
     "isolatedModules": false,
     "target": "es5",
     "lib": ["es5", "dom"],
