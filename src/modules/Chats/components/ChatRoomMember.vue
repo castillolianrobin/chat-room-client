@@ -21,6 +21,7 @@ const { user } = useAuthStore()
     class="flex items-center gap-2"  
   >
     <AppChip
+      aria-label="room member"
       class="w-6 aspect-square relative"
       :color="props.id === user?.id ? 'primary-500' : 'secondary-500'"
     >

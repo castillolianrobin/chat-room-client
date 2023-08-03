@@ -1,9 +1,9 @@
 import { typeOnInput } from "../helpers/input.cy";
-import { loginSuccessResponse } from "../public/helpers/login.cy";
-import { chatRoomsSuccess, interceptChatRoomCreate, interceptChatRooms } from "./helpers/chatroom.cy";
+import { loginSuccessResponse } from "../auth/helpers/login.cy";
+import { sampleChatRooms, interceptChatRoomCreate, interceptChatRooms } from "./helpers/chatroom.cy";
 
 
-describe('Chat room list Page', () => {
+describe('Chat Room List Page', () => {
   const { token, user } = loginSuccessResponse.success.data;
   beforeEach(() => {
     window.localStorage.setItem('_auth_user', JSON.stringify({ ...user, token }));
@@ -18,7 +18,7 @@ describe('Chat room list Page', () => {
   // Displays rooms properly
   it ('displays chat rooms properly', () => {
     interceptChatRooms();
-    const rooms = chatRoomsSuccess.success.data;
+    const rooms = sampleChatRooms;
     // should display rooms labels
     cy.contains('Public').should('exist');
     cy.contains('Private').should('exist');

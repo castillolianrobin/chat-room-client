@@ -1,4 +1,4 @@
-import { loginForm, login, goToLogin } from '../public/helpers/login.cy'; 
+import { loginForm, login, goToLogin } from '../auth/helpers/login.cy'; 
 import { inputErrorContains } from '../helpers/input.cy';
 describe('Login Page', () => {
   const requiredText = "shouldn't be empty";

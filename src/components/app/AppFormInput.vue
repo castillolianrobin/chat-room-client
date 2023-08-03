@@ -197,6 +197,7 @@ const showPass = ref(false);
           transition-colors autofill:duration-[50000s]
           disabled:text-white/50
         "
+        :aria-label="props.name || props.label"
         @keydown="onMultiKeyDownHandler"
         v-bind="$attrs" 
       />

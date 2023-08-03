@@ -255,6 +255,7 @@ async function sendMessage(error: string[]) {
             <!-- Room Name  -->
             <h4
               class="text-white text-2xl font-semibold"
+              aria-label="room name"
             >
               {{  roomData?.name || '...' }}
             </h4> 
@@ -270,6 +271,7 @@ async function sendMessage(error: string[]) {
                   size="sm"
                   color="white" 
                   variant="text"
+                  aria-label="edit room"
                   @click="isEditRoom = true"
                 >
                   <PencilSquareIcon class="h-6 w-6"
@@ -286,6 +288,7 @@ async function sendMessage(error: string[]) {
                       size="sm"
                       color="error-500"
                       variant="text"
+                      aria-label="delete room"
                       @click="toggleModal"
                     >
                       <TrashIcon class="h-6 w-6"></TrashIcon>
@@ -300,9 +303,11 @@ async function sendMessage(error: string[]) {
                     <AppFormInput 
                       v-model="deleteRoomConfirm"  
                       color="error-500"
+                      name="room name"
                     ></AppFormInput>
                     <div class="mt-5 grid grid-cols-2 gap-5">
                       <AppButton
+                        aria-label="delete room cancel"
                         color="secondary-500"
                         :loading="deleteRoomLoading"
                         @click="toggleModal(false)"
@@ -310,6 +315,7 @@ async function sendMessage(error: string[]) {
                         Cancel
                       </AppButton>
                       <AppButton 
+                        aria-label="delete room submit"
                         color="error-500"
                         :disabled="deleteRoomConfirm !== roomData?.name"
                         :loading="deleteRoomLoading"
@@ -328,6 +334,7 @@ async function sendMessage(error: string[]) {
                 <template #trigger="{ toggleModal }">
                   <AppTooltip tooltip-text="Leave Room">
                     <AppButton 
+                      aria-label="leave room"
                       size="sm"
                       color="error-500"
                       variant="text"
@@ -345,6 +352,7 @@ async function sendMessage(error: string[]) {
                     
                     <div class="mt-5 grid grid-cols-2 gap-5">
                       <AppButton
+                        aria-label="leave room cancel"
                         color="secondary-500"
                         :loading="leaveRoomLoading"
                         @click="toggleModal(false)"
@@ -352,6 +360,7 @@ async function sendMessage(error: string[]) {
                         Cancel
                       </AppButton>
                       <AppButton 
+                        aria-label="leave room submit"
                         color="error-500"
                         :loading="leaveRoomLoading"
                         @click="leaveRoom"
@@ -375,6 +384,7 @@ async function sendMessage(error: string[]) {
             <AppFormInput 
               v-model="editRoomForm.name"
               class="flex-grow"
+              name="room name"
               container-class="py-0.5 px-1"
               :disabled="editRoomLoading"
               :placeholder="roomData?.name"
@@ -384,6 +394,7 @@ async function sendMessage(error: string[]) {
               type="submit" 
               size="sm"
               variant="text" 
+              aria-label="edit room submit"
               :loading="editRoomLoading"
               :disabled="!editRoomForm.name"
             >
@@ -395,6 +406,7 @@ async function sendMessage(error: string[]) {
               size="sm" 
               variant="text" 
               color="secondary-500"
+              aria-label="edit room cancel"
               :loading="editRoomLoading"
               @click="isEditRoom = false" 
             >
@@ -426,7 +438,8 @@ async function sendMessage(error: string[]) {
                 direction="right"
               >
                 <AppButton
-                  size="sm" 
+                  size="sm"
+                  aria-label="add member" 
                   variant="outline" 
                   color="success-500" 
                   class="pl-0 pr-0 pb-0 pt-0 rounded-full"
@@ -451,6 +464,7 @@ async function sendMessage(error: string[]) {
               <AppFormInput
                 v-model="addMemberForm.email"
                 :disabled="addMemberLoading"
+                name="email"
                 placeholder="user.name@email.com"
                 validations="required | email"
               ></AppFormInput>
@@ -463,6 +477,7 @@ async function sendMessage(error: string[]) {
 
               <AppButton 
                 type="submit"
+                aria-label="add member submit"
                 :loading="addMemberLoading"
               >
                 Submit
@@ -528,13 +543,14 @@ async function sendMessage(error: string[]) {
         class="flex-grow"
         placeholder="Send a message..."
         validations="required"
+        name="message"
         label-class="hidden"
         error-class="hidden"
       ></AppFormInput>
       <AppButton
-        :loading="sendMessageLoading" 
-        class="" 
+        aria-label="send" 
         type="submit"
+        :loading="sendMessageLoading" 
       >
         <span class="hidden md:block">Send</span>
         <PaperAirplaneIcon class="h-5 w-5"></PaperAirplaneIcon>

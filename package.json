@@ -32,6 +32,7 @@
     "vue-tailwind-datepicker": "^1.4.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.2",
@@ -51,6 +52,7 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
+    "pusher-js-mock": "^0.3.8",
     "sass": "^1.60.0",
     "start-server-and-test": "^2.0.0",
     "tailwindcss": "^3.2.7",
