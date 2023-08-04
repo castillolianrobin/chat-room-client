@@ -235,7 +235,7 @@ describe('Chat Room Page', () => {
   })
   
   // Receives Message 
-  it.only('receives message   correctly', ()=>{
+  it('receives message   correctly', ()=>{
     cy.wrap(privateRoom).should('not.be.null');
     cy.wrap(privateMember).should('not.be.null');
     privateRoom && privateMember && interceptChatRoomMessageSend(
