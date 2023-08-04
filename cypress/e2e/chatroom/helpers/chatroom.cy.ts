@@ -4,6 +4,7 @@ import { generateChatRoomMember } from "../../seeders/ChatRoomMember";
 import { generateChatRoom } from "../../seeders/ChatRooms";
 import { generateUser } from "../../seeders/Users";
 import { pusherMock } from "../../auth/helpers/pusher.cy";
+import { generateChatRoomMessage } from "../../seeders/ChatRoomMessages";
 
 /** __Seeders__ */
 
@@ -256,6 +257,43 @@ export function interceptChatRoomMemberAdd(room_id: number) {
 }
 
 
+// Fetch messages
+export function interceptChatRoomMessages(room_id: number) {
+  const roomMembers = sampleMembers
+    .filter(mem=>mem.chat_room_id === room_id)
+    .map(mem=>(sampleUsers
+      .filter(usr=>usr.id === mem.user_id))
+      .shift()
+    )
+
+    const messages = [...new Array(20)].map((_, i)=>({
+      ...generateChatRoomMessage(
+        i,
+        faker.helpers.arrayElement(roomMembers),
+        room_id,
+      ),
+    }))
+  // generateChatRoomMessage
+  
+  return interceptGet(`/chat/rooms/${room_id}/messages`, (req) => {
+    
+    // Send a message created pusher event
+    // pusherMock()
+    //   .channels[`presence-room.${room_id}`]
+    //   .emit('MessageCreated', {
+    //     roomId: room_id,
+    //     message: body,
+    //   });
+    
+    req.reply(201 , {
+      success: {
+        message: 'Message delivered',
+        data: messages,
+      }
+    });
+  });
+}
+
 // Send Message
 export function interceptChatRoomMessageSend(room_id: number, sender_id: number) {
   return interceptPost(`/chat/rooms/${room_id}/messages/`, (req) => {
@@ -275,7 +313,7 @@ export function interceptChatRoomMessageSend(room_id: number, sender_id: number)
         roomId: room_id,
         message: body,
       });
-    
+    onMessageCreated(room_id, body);
     req.reply(201 , {
       success: {
         message: 'Message delivered',
@@ -284,6 +322,19 @@ export function interceptChatRoomMessageSend(room_id: number, sender_id: number)
     });
   });
 }
+
+/** __PUSHER EVENT__ */
+
+export function onMessageCreated (room_id: number, body: { id: number, room_id: number, sender_id: number, message: string, created_at: string, updated_at: string }) {
+  
+  // Send a message created pusher event
+  pusherMock()
+    .channels[`presence-room.${room_id}`]
+    .emit('MessageCreated', {
+      roomId: room_id,
+      message: body,
+    });
+} 
 
 
 /** __TYPE DEFINITION__ */

@@ -1,6 +1,8 @@
+import { faker } from "@faker-js/faker";
 import { loginSuccessResponse } from "../auth/helpers/login.cy";
 import { typeOnInput } from "../helpers/input.cy";
-import { interceptChatRoom, interceptChatRoomDelete, interceptChatRoomEdit, interceptChatRoomLeave, interceptChatRoomMemberAdd, interceptChatRoomMessageSend, interceptChatRooms, sampleChatRooms, sampleChatRoomsVerbose, sampleMembers, sampleUsers } from "./helpers/chatroom.cy";
+import type { generateChatRoomMessage } from "../seeders/ChatRoomMessages";
+import { interceptChatRoom, interceptChatRoomDelete, interceptChatRoomEdit, interceptChatRoomLeave, interceptChatRoomMemberAdd, interceptChatRoomMessageSend, interceptChatRoomMessages, interceptChatRooms, onMessageCreated, sampleChatRooms, sampleChatRoomsVerbose, sampleMembers, sampleUsers } from "./helpers/chatroom.cy";
 
 describe('Chat Room Page', () => {
   const roomEl = {
@@ -77,8 +79,9 @@ describe('Chat Room Page', () => {
     
     cy.visit('/chat/room/' + privateRoom?.id);
     if (privateRoom) {
+      interceptChatRoomMessages(privateRoom?.id).as('messages');
       interceptChatRoom(privateRoom?.id).as('room');
-      interceptChatRoomEdit(privateRoom?.id).as('editRoom')
+      interceptChatRoomEdit(privateRoom?.id).as('editRoom');
     }
   }
   
@@ -87,14 +90,26 @@ describe('Chat Room Page', () => {
     window.localStorage.setItem('_auth_user', JSON.stringify({ ...user, token }));
   });
 
-  it ('Loads room data correctly', () => {
+  it ('loads room data correctly', () => {
     visitPrivateRoom();
     cy.wait('@room').then((interception)=>{
       const body = interception.response?.body;
       // Room Name is displayed
       cy.get(roomEl.name).contains(body.success.data.name);
     });
-  })
+
+    cy.wait('@messages').then((interception)=>{
+      // Messages are displayed
+      const messages = interception.response?.body.success.data as ReturnType<typeof generateChatRoomMessage>[];
+      
+      for(const i in messages) {
+        const message = messages[i];
+        if (message.message) {
+          cy.contains(message.message).should('exist');
+        }
+      }
+    })
+  });
 
   
   // View Members
@@ -220,6 +235,33 @@ describe('Chat Room Page', () => {
   })
   
   // Receives Message 
-  it ('receives message   correctly')
+  it.only('receives message   correctly', ()=>{
+    cy.wrap(privateRoom).should('not.be.null');
+    cy.wrap(privateMember).should('not.be.null');
+    privateRoom && privateMember && interceptChatRoomMessageSend(
+      privateRoom?.id,
+      privateMember?.id,
+    ).as('sendMessage');
+    visitPrivateRoom();
+    
+    const sampleUser = privateAdmin;
+    if (privateRoom && sampleUser) {
+      cy.wait('@messages').then(()=>{
+        const body = {
+          id: 5,
+          room_id: privateRoom.id ,
+          sender_id: sampleUser.id,
+          message: 'Sample Message sent',
+          updated_at: faker.date.recent().toISOString(),
+          created_at: faker.date.recent().toISOString(),
+        };
+    
+        onMessageCreated(privateRoom?.id, body);
+        cy.contains(body.message).should('exist');
+      })
+    }
+
+
+  })
 
 })
