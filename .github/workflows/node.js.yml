@@ -28,13 +28,8 @@ jobs:
     - run: npm run test:unit
     - run: npm run test:e2e
   deploy:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    name: 'Deploy to Netlify'
     steps:
-      -name: 'Deploy to Netlify'
       - uses: jsmrcaga/action-netlify-deploy@v2.0.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_DEPLOY_TOKEN }}
