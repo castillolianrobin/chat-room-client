@@ -9,9 +9,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  # DEPLOYMENT VARIABLES
-  VITE_API_URL: ${{ secrets.API_URL }}
 jobs:
   build:
 
@@ -35,6 +32,9 @@ jobs:
     - run: npm run test:e2e
     - name: 'Deploy to Netlify'
       uses: jsmrcaga/action-netlify-deploy@v2.0.0
+      # DEPLOYMENT VARIABLES
+      env:
+        VITE_API_URL: ${{ secrets.API_URL }}
       with:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_DEPLOY_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
