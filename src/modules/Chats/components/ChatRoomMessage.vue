@@ -26,15 +26,15 @@ const createdAt = computed(()=>props.created_at
     class="
       p-3 
       group
-      rounded
+      rounded-lg
       text-white
       w-fit max-w-[50%]
       flex flex-col
     "
     :class="{
       'ml-auto items-end': props.sender_id === userInfo?.id,
-      'bg-primary-500':  props.sender_id === userInfo?.id,
-      'bg-secondary-500':  props.sender_id !== userInfo?.id,
+      'bg-primary-500 rounded-br-none':  props.sender_id === userInfo?.id,
+      'bg-secondary-500 rounded-bl-none':  props.sender_id !== userInfo?.id,
     }"
   >
     <p class="text-sm font-light opacity-70">
