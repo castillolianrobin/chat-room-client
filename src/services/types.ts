@@ -40,19 +40,15 @@ export class CRUDService<Model = {}, CreateParams = Model> {
 
 /** [Type] Axios success response */
 export interface SuccessResponse<Data = {}> {
-  success: { 
-    message: string; 
-    data: Data;
-  };
+  message: string; 
+  data: Data;
 }
 
 /** [Type] Axios error response */
 export interface ErrorResponse<Data = {}, Errors = {}> {
-  error: {
-    message?: string;
-    errors?: Errors;
-    data?: Data;
-  }
+  message?: string;
+  errors?: Errors;
+  data?: Data;
 }
 
 /** [Type] Axios success response for paginated data */

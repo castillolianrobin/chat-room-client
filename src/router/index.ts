@@ -11,6 +11,7 @@ import { usePageLoadStore } from '@/stores/pageLoadStore';
 // Modules
 import authRoutes from '@/modules/Auth/auth.routes';
 import chatsRoutes from '@/modules/Chats/chats.routes';
+import settingsRoutes from '@/modules/Settings/settings.routes';
 
 
 const router = createRouter({
@@ -31,6 +32,12 @@ const router = createRouter({
       meta: { middleware: [authentication] }
     },
 
+    {
+      path: '/settings',
+      component: RouterView,
+      children: settingsRoutes,
+      meta: { middleware: [authentication] }
+    },
 
     /** __Component Kit Routes__ */
     {

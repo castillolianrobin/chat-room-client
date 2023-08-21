@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 
 const route = useRoute();
 const layoutShift = computed(()=>!!route.meta.layoutShift);
+const isLeaving = ref(false);
+onBeforeUnmount(()=>{
+  isLeaving.value = true;
+});
 </script>
 
 <template>
@@ -26,6 +30,7 @@ const layoutShift = computed(()=>!!route.meta.layoutShift);
         transition-all ease-in-out delay-100 duration-500
       "
       :class="{
+        'scale-0': isLeaving,
         '-left-[100%] md:-left-[30%] bg-secondary-400': !layoutShift,
         'left-[40%] md:left-[70%] bg-white/10': layoutShift
       }"
@@ -42,6 +47,7 @@ const layoutShift = computed(()=>!!route.meta.layoutShift);
         transition-all ease-in-out duration-700
       "
       :class="{
+        'scale-0': isLeaving,
         '-right-[60%] md:-right-[12%] bg-accent-500': !layoutShift,
         'right-[60%] md:right-[60%] bg-white/10': layoutShift
       }"

@@ -10,6 +10,7 @@ const props = defineProps({
   first_name: String,
   last_name: String,
   online: Boolean,
+  profile_img_url: String,
 });
 
 const { user } = useAuthStore()
@@ -20,7 +21,15 @@ const { user } = useAuthStore()
   <div
     class="flex items-center gap-2"  
   >
+    <img 
+      v-if="props.profile_img_url"
+      :src="props.profile_img_url" 
+      class="aspect-square w-6 rounded-full"
+      alt="Profile" 
+    />
+
     <AppChip
+      v-else
       aria-label="room member"
       class="w-6 aspect-square relative"
       :color="props.id === user?.id ? 'primary-500' : 'secondary-500'"

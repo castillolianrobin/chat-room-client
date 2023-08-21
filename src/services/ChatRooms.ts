@@ -28,7 +28,7 @@ export interface ChatRoom {
 }
 
 export interface ChatRoomUser extends User {
-  chat_room_members?: ChatRoomMember
+  chat_room_membership?: ChatRoomMember
 }
 export interface CreateChatRoom {
   name: string;

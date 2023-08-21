@@ -1,4 +1,4 @@
-import LayoutDefault from '@/layout/layouts/LayoutDefault.vue';
+import type { RouteRecordRaw } from 'vue-router';
 
 export default [
   {
@@ -13,4 +13,4 @@ export default [
     component: () => import('./views/RegisterView.vue'),
     meta: {  layout: 'Auth', layoutShift: true, },
   },
-]
+] as readonly RouteRecordRaw[]

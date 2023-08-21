@@ -28,7 +28,7 @@ async function fetchRooms() {
   fetchRoomLoading.value = true;
   try {
     const response = await ChatRooms.list2();
-    chatRoom.value = response.data.success.data || [];
+    chatRoom.value = response.data.data || [];
   } catch {
     alert('An error occured.');
   }
@@ -51,7 +51,7 @@ async function createRoom(error: string[]) {
     const response = await ChatRooms.create(createRoomForm.value);
     if (response.status === 201) {
       createRoomSuccess.value = true;
-      chatRoom.value.push(response.data.success.data)
+      chatRoom.value.push(response.data.data)
     }
   } catch {
     createRoomError.value = 'Something went wrong';

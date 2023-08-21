@@ -29,13 +29,13 @@ async function signupUser(errors: string[]) {
   loading.value = true;
   try {
     const response = await Users.register(form.value);
-    const registeredUser = response.data.success.data;
-    if (response.data.success) {
+    const registeredUser = response.data.data;
+    if (registeredUser) {
       success.value = true;
     }
   } catch (e) {
     console.error('Login: Something went wrong', e);
-    const err = (e as AxiosError<ErrorResponse<{}, object>>).response?.data.error.errors
+    const err = (e as AxiosError<ErrorResponse<{}, object>>).response?.data.errors
     error.value = (Object.values(err || {}))?.shift() || 'Error!';
   }
   loading.value = false;

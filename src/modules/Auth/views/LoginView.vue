@@ -50,15 +50,15 @@ async function loginUser(errors?: string[]) {
       remember: isRemember.value, 
     });
     const userData = { 
-      ...response.data.success.data.user, 
-      token: response.data.success.data.token 
+      ...response.data.data.user, 
+      token: response.data.data.token 
     };
     authStore.setUser(userData)
     success.value = true;
     router.push({ name: 'ChatRoomList' })
   } catch (e) {
     console.error('Login: Something went wrong', e);
-    const err = (e as AxiosError<ErrorResponse>).response?.data.error.message;
+    const err = (e as AxiosError<ErrorResponse>).response?.data.message;
     error.value = err || '';
   }
   loading.value = false;

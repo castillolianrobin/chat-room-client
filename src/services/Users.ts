@@ -1,5 +1,6 @@
 import axios from '@/plugins/axios';
 import { CRUDService, type SuccessResponse, type TableResponse } from './types';
+import type { UserDetail } from './UserDetails';
 
 class Users extends CRUDService<User, CreateUser>{
   constructor() {
@@ -8,7 +9,7 @@ class Users extends CRUDService<User, CreateUser>{
 
   // Auth
   login(params?: any) {
-    return axios.post<SuccessResponse<{user:User; token: string}>>(`/login`, params);
+    return axios.post<SuccessResponse<{user:UserLogin; token: string}>>(`/login`, params);
   }
   logout(params?: any) {
     return axios.post<SuccessResponse<User>>(`/logout`, params);
@@ -26,6 +27,10 @@ export default new Users();
 
 /** __TYPE DEFINITION__ */
 
+export interface UserLogin extends User{
+  user_details: UserDetail;
+}
+
 export interface User {
   email: string;
   password?: string;
@@ -36,14 +41,9 @@ export interface User {
   last_name?: string;
   updated_at: string;
   created_at: string;
+  user_details?: UserDetail;
 }
 
-export interface UserInfo {
-  firstName: string;
-  lastName: string;
-  middleName?: string;
-  birthday?: string;
-}
 export interface CreateUser extends Modify<User,{
   id?: number;
   password: string, 

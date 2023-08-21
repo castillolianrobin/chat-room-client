@@ -36,9 +36,9 @@ async function fetchRooms() {
   roomDataLoading.value = true;
   try {
     const response = await ChatRooms.show(roomId);
-    roomData.value = response.data.success.data;
+    roomData.value = response.data.data;
     const chatResponse = await chatRoomMessage.list2();
-    roomMessage.value = chatResponse.data.success.data || [];
+    roomMessage.value = chatResponse.data.data || [];
   } catch {
     alert('An error occured');
   }
@@ -91,7 +91,7 @@ async function editRoom() {
   editRoomLoading.value = true;
   try {
     const response = await ChatRooms.update(roomId, editRoomForm.value);
-    const newRoomData = response.data.success.data;
+    const newRoomData = response.data.data;
     roomData.value = { ...roomData.value, ...newRoomData };
     alert('Room updated');
 
@@ -116,7 +116,7 @@ async function deleteRoom() {
     const response = await ChatRooms.delete(roomId);
 
     if (response.status === 200) {
-      alert(response.data.success.message);
+      alert(response.data.message);
       router.push({ name: 'ChatRoomList' });
     } 
   } catch (e) {
@@ -133,7 +133,7 @@ async function deleteRoom() {
 const isLoggedUserAdmin = computed(()=>{
   return !!roomData.value
     ?.members
-    ?.find(mem=>mem.id === user?.id)?.chat_room_members?.is_admin;
+    ?.find(mem=>mem.id === user?.id)?.chat_room_membership?.is_admin;
 });
 
 
@@ -173,7 +173,7 @@ async function addMember(error: string[]) {
       // roomData.value?.members?.push(response.status)
     }
   } catch (e) {
-    const err = (e as AxiosError<ErrorResponse>).response?.data.error.message;
+    const err = (e as AxiosError<ErrorResponse>).response?.data.message;
     alert(`Error: ${err}`);
   }
 
@@ -198,7 +198,7 @@ async function sendMessage(error: string[]) {
   sendMessageLoading.value = true;
   try {
     const response = await chatRoomMessage.create(sendMessageForm.value);
-    if (response.data.success.data) {
+    if (response.data.data) {
       sendMessageForm.value.message = '';
     }
   } catch {
@@ -419,10 +419,10 @@ async function sendMessage(error: string[]) {
           <!-- Member  -->
           <ChatRoomMember
             v-for="member in (roomData?.is_private ? roomData.members : roomMembers)"
-            :key="`${member.first_name}${member.id}`"
+            :key="`${member.user_details?.first_name}${member.id}`"
             :online="!!roomMembers.find(mem=>mem.id === member.id)"
             class="flex items-center gap-2"
-            v-bind="{ ...member }"  
+            v-bind="{ ...(member.user_details) }"  
           ></ChatRoomMember>
 
           <!-- Add Member Modal -->

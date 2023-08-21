@@ -1,12 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { User } from '@/services/Users';
+import type { UserLogin } from '@/services/Users';
 
 export const useAuthStore = defineStore('user', () => { 
-  const user = ref<User | null>(getRememberedUser());
+  const user = ref<UserLogin | null>(getRememberedUser());
   // const token = computed(() => user.value?.token)
   
-  function setUser(_user: User | null) {
+  function setUser(_user: UserLogin | null) {
     user.value = _user;
     localStorage.setItem(storageUserKey, JSON.stringify(_user));
   }

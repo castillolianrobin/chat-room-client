@@ -1,6 +1,8 @@
 import router from '@/router';
 import { useAuthStore } from '@/stores/authStore';
 import axios, { AxiosError } from 'axios';
+// Helpers 
+import formHelper from '@/helpers/formHelper';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
@@ -15,8 +17,12 @@ axios.interceptors.request.use(
         .headers
         .setAuthorization(`Bearer ${user.token}`);
     }
+
+    if (config.headers['Content-Type'] === 'multipart/form-data') {
+      config.data = formHelper.generateFormData(config.data);
+    }
     return config;
-  })
+});
 
 axios.interceptors.response.use(response=>response, (error: AxiosError)=>{
   const authStore = useAuthStore();

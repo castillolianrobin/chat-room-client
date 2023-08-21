@@ -242,58 +242,63 @@ function drop(event: DragEvent) {
       >
         <!-- Dropbox -->
         <div
-          aria-label="dropzone box" 
-          :class="`
-            p-2 py-5
-            rounded
-            cursor-pointer
-            brightness-90
-            text-${color} 
-            bg-${color} bg-opacity-10
-            border border-dashed border-${color}
-            flex flex-col justify-center items-center
-            transition-colors
-          `"
+          class="cursor-pointer"
           @click="openFileInput"
           v-on="{ dragleave, dragover, drop }"
         >
-          <h3 class="font-semibold text-center">
-            <slot 
-              name="dropzone-title"
-              v-bind="{ color, props }"
+          <slot name="dropzone" v-bind="{ modelValue, openFileInput, props, color}">
+            <div
+              aria-label="dropzone box" 
+              :class="`
+                p-2 py-5
+                rounded
+                brightness-90
+                text-${color} 
+                bg-${color} bg-opacity-10
+                border border-dashed border-${color}
+                flex flex-col justify-center items-center
+                transition-colors
+              `"
             >
-              <span class="text-secondary-800 dark:text-secondary-100">
-                Drop files here or
-              </span> 
-              <u>click here to browse</u>.
-            </slot>
-          </h3>
-          <!-- Supported type, size -->
-          <label
-            class="
-              mt-1
-              flex flex-col md:flex-row gap-2
-              text-xs text-secondary-400 
-              [&>*:last-child.separator]:hidden
-              text-center
-            "
-            aria-label="file limit"
-          >
-            <slot 
-              name="dropzone-subtitle" 
-              v-bind="{ color, props }"
-            >
-              <span>
-                Supported file type: {{ props.accept || '*' }}
-              </span>
-              
-              <span class="separator hidden md:inline">&#x2022;</span>
-              
-              <span v-if="props.maxSize">
-                Max file size: {{ props.maxSize }} {{ FILESIZE_TYPE }}
-              </span>
-            </slot>
-          </label>
+              <h3 class="w-full font-semibold text-center">
+                <slot 
+                  name="dropzone-title"
+                  v-bind="{ color, props }"
+                >
+                  <span class="text-secondary-800 dark:text-secondary-100">
+                    Drop file/s here or
+                  </span> 
+                  <u>click here to browse</u>.
+                </slot>
+              </h3>
+              <!-- Supported type, size -->
+              <label
+                class="
+                  mt-1
+                  flex flex-col md:flex-row gap-2
+                  text-xs text-secondary-400 
+                  [&>*:last-child.separator]:hidden
+                  text-center
+                "
+                aria-label="file limit"
+              >
+                <slot 
+                  name="dropzone-subtitle" 
+                  v-bind="{ color, props }"
+                >
+                  <span>
+                    Supported file type: {{ props.accept || '*' }}
+                  </span>
+                  
+                  <span class="separator hidden md:inline">&#x2022;</span>
+                  
+                  <span v-if="props.maxSize">
+                    Max file size: {{ props.maxSize }} {{ FILESIZE_TYPE }}
+                  </span>
+                </slot>
+              </label>
+            </div>
+          </slot>
         </div>
 
         <!-- Files -->
