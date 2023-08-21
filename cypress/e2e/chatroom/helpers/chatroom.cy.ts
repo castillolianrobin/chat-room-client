@@ -58,10 +58,8 @@ export function interceptChatRooms() {
 }
 
 export const chatRoomsSuccess = {
-  success: {
-    message: 'Operation completed successfully',
-    data: sampleChatRooms,
-  }
+  message: 'Operation completed successfully',
+  data: sampleChatRooms,
 };
 
 // Create Chat Room
@@ -70,24 +68,22 @@ export function interceptChatRoomCreate() {
   return interceptPost('/chat/rooms/', (req)=>{
     const form = req.body as CreateChatRoom;
     const body =  { ...createChatRoomSuccessResponse };
-    body.success.data.is_private = form.is_private;
-    body.success.data.name = form.name;
+    body.data.is_private = form.is_private;
+    body.data.name = form.name;
     
     req.reply(201, body);
   });
 }
 
 export const createChatRoomSuccessResponse = {
-  success: { 
-    data: {
-      created_at: "2023-08-01T10:59:32.000000Z",
-      updated_at: "2023-08-01T10:59:32.000000Z",
-      id: 5,
-      is_private: true,
-      name: 'New Room',
-    },
-    message: "New room created!",
+  data: {
+    created_at: "2023-08-01T10:59:32.000000Z",
+    updated_at: "2023-08-01T10:59:32.000000Z",
+    id: 5,
+    is_private: true,
+    name: 'New Room',
   },
+  message: "New room created!",
 }
 
 // View Chat Room
@@ -95,9 +91,7 @@ export const createChatRoomSuccessResponse = {
 export function interceptChatRoom(id: number) {
   // response body
   const body =  {
-    success: {
-      ...viewChatRoomResponse.success(id),
-    },
+    ...viewChatRoomResponse.success(id),
   };
   
   return interceptGet('/chat/rooms/' + id, body);
@@ -125,15 +119,13 @@ export const viewChatRoomResponse = {
 export function interceptChatRoomEdit(id: number) {
   // response body
   const body =  {
-    success: {
-      ...editChatRoomResponse.success(id),
-    },
+    ...editChatRoomResponse.success(id),
   };
   
   return interceptPost('/chat/rooms/' + id, (req)=>{
     if (req.body._method === 'PUT') {
-      body.success.data = {
-        ...body.success.data,
+      body.data = {
+        ...body.data,
         ...req.body,
       };
       req.reply(200, body);
@@ -165,15 +157,13 @@ export const editChatRoomResponse = {
 export function interceptChatRoomDelete(id: number) {
   // response body
   const body =  {
-    success: {
-      ...deleteChatRoomResponse.success(id),
-    },
+    ...deleteChatRoomResponse.success(id),
   };
   
   return interceptPost('/chat/rooms/' + id, (req)=>{
     if (req.body._method === 'DELETE') {
-      body.success.data = {
-        ...body.success.data,
+      body.data = {
+        ...body.data,
         ...req.body,
       };
       req.reply(200, body);
@@ -207,14 +197,12 @@ export const deleteChatRoomResponse = {
 export function interceptChatRoomLeave(id: number) {
   // response body
   const body =  {
-    success: {
-      ...leaveChatRoomResponse.success(id),
-    },
+    ...leaveChatRoomResponse.success(id),
   };
   
   return interceptPost(`/chat/rooms/${id}/members/leave`, (req)=>{
-    body.success.data = {
-      ...body.success.data,
+    body.data = {
+      ...body.data,
       ...req.body,
     };
     req.reply(200, body);
@@ -286,10 +274,8 @@ export function interceptChatRoomMessages(room_id: number) {
     //   });
     
     req.reply(201 , {
-      success: {
-        message: 'Message delivered',
-        data: messages,
-      }
+      message: 'Message delivered',
+      data: messages,
     });
   });
 }
@@ -315,10 +301,8 @@ export function interceptChatRoomMessageSend(room_id: number, sender_id: number)
       });
     onMessageCreated(room_id, body);
     req.reply(201 , {
-      success: {
-        message: 'Message delivered',
-        data: body,
-      }
+      message: 'Message delivered',
+      data: body,
     });
   });
 }

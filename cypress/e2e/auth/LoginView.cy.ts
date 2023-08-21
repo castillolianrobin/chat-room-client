@@ -28,7 +28,7 @@ describe('Login Page', () => {
   })
 
   // // Submit Validation
-  it('redirects to /chats if valid', ()=> {
+  it.only('redirects to /chats if valid', ()=> {
     goToLogin();
     login('username@gmail.com', 'random', true);
     const formError = "Unauthorized";

@@ -34,7 +34,7 @@ export function register(form: RegisterForm) {
 
 
 export function interceptRegister(form: RegisterForm) {
-  const existingEmail = loginSuccessResponse.success.data.user.email;
+  const existingEmail = loginSuccessResponse.data.user.email;
   const errors: { email?: string, password?: string } = {};
   // Email Exizting 
   console.log(form.email, existingEmail);
@@ -49,14 +49,14 @@ export function interceptRegister(form: RegisterForm) {
 
   if (Object.keys(errors).length > 0) {
     const body = { ...registerFailedResponse };
-    body.error.errors = errors;
+    body.errors = errors;
     interceptPost('/register', {
       statusCode: 422,
       body,
     }).as('register');
   } else {
     const body = { ...registerSuccessResponse };
-    body.success.data = {
+    body.data = {
       user: {
         ...form,
         id: 2,
@@ -72,19 +72,15 @@ export function interceptRegister(form: RegisterForm) {
 
 
 export const registerSuccessResponse = {
-  success: {
-    data: {},
-    message: 'Registration successful',
-  }
+  data: {},
+  message: 'Registration successful',
 }
 
 
 export const registerFailedResponse = {
-  error: {
-    data: null,
-    errors: {},
-    message: 'The given data was invalid.',
-  }
+  data: null,
+  errors: {},
+  message: 'The given data was invalid.',
 }
 
 

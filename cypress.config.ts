@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
@@ -9,5 +10,8 @@ export default defineConfig({
       'cypress/e2e/auth/**/*.{cy,spec}.{js,jsx,ts,tsx}',
       'cypress/e2e/chatroom/**/*.{cy,spec}.{js,jsx,ts,tsx}',
     ],
+  },
+  env: {
+    API_URL: process.env.VITE_API_URL,
   }
 })

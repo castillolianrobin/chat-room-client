@@ -38,7 +38,7 @@ export function login(username?:string, password?:string, submit?:boolean) {
 export function interceptLogin(username?: string, password?: string) {
   // Login success
   if (
-    username === loginSuccessResponse.success.data.user.email && 
+    username === loginSuccessResponse.data.user.email && 
     password === 'pass123'
   ) {
     interceptPost('/login', { 
@@ -57,27 +57,23 @@ export function interceptLogin(username?: string, password?: string) {
 
 
 export const loginSuccessResponse = {
-  success: {
-    message: "Login successful",
-    data: {
-      token: "45|Uy4dm3z5SZF6fLllM2gx0Ze3regEcjUkbTGm4Jgi",
-      user: {
-        id: 1, 
-        first_name: "Juan", 
-        last_name: "Cruz", 
-        email: "test@email.com",
-        created_at: "2023-07-17T08:38:14.000000Z",
-        updated_at: "2023-07-17T08:38:14.000000Z",
-        email_verified_at: null,
-      },
-    }
-  },
+  message: "Login successful",
+  data: {
+    token: "45|Uy4dm3z5SZF6fLllM2gx0Ze3regEcjUkbTGm4Jgi",
+    user: {
+      id: 1, 
+      first_name: "Juan", 
+      last_name: "Cruz", 
+      email: "test@email.com",
+      created_at: "2023-07-17T08:38:14.000000Z",
+      updated_at: "2023-07-17T08:38:14.000000Z",
+      email_verified_at: null,
+    },
+  }
 };
 
 export const loginFailedResponse = {
-  error: {
-    message: "Unauthorized", 
-    errors: "Invalid credentials", 
-    data: null,
-  },
+  message: "Unauthorized", 
+  errors: "Invalid credentials", 
+  data: null,
 };

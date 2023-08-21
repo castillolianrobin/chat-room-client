@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios';
 import formHelper from '@/helpers/formHelper';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-
+console.log('ENV IN REAL',import.meta.env.VITE_API_URL);
 
 
 // Request Interceptor for Beater Token Auth
