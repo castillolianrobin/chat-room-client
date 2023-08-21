@@ -13,4 +13,4 @@ export default [
     component: () => import('./views/ChatRoomView.vue'),
     meta: { layout: 'Dashboard' },
   },
-] as RouteRecordRaw[]
+] as RouteRecordRaw[];

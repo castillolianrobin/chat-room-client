@@ -13,4 +13,4 @@ export default [
     component: () => import('./views/RegisterView.vue'),
     meta: {  layout: 'Auth', layoutShift: true, },
   },
-] as readonly RouteRecordRaw[]
+] as RouteRecordRaw[];

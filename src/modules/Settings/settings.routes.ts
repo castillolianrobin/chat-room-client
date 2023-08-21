@@ -7,4 +7,4 @@ export default [
     component: () => import('./views/SettingsProfileView.vue'),
     meta: { layout: 'Dashboard', title: 'Profile Settings' },
   },
-] as readonly RouteRecordRaw[]
+] as RouteRecordRaw[]
