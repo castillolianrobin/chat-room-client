@@ -45,20 +45,20 @@ describe('Chat Room Page', () => {
     .filter(room=>
         !!room.is_private 
         && room.members
-          .filter(mem=>mem.chat_room_members.is_admin).length > 0
+          .filter(mem=>mem.chat_room_membership.is_admin).length > 0
         && room.members
-          .filter(mem=>!mem.chat_room_members.is_admin).length > 0 
+          .filter(mem=>!mem.chat_room_membership.is_admin).length > 0 
     ).shift();
   
   const regularMember = privateRoom?.members
-    .filter(mem=>mem.chat_room_members.is_admin == 0)
+    .filter(mem=>mem.chat_room_membership.is_admin == 0)
     .shift();
   const privateMember = sampleUsers
     .filter((usr)=>usr.id === regularMember?.id)
     .shift();
   
   const adminMember = privateRoom?.members
-    .filter(mem=>!!mem.chat_room_members.is_admin)
+    .filter(mem=>!!mem.chat_room_membership.is_admin)
     .shift();
   const privateAdmin = sampleUsers
     .filter((usr)=>usr.id === adminMember?.id)
@@ -124,14 +124,14 @@ describe('Chat Room Page', () => {
   it('(admin) add members  correctly', () => {
     // Hidden on members only
     visitPrivateRoom('member');
-    cy.wait('@room')
+    cy.wait('@messages')
     .then(()=> {
       cy.get(roomEl.addMember.btn).should('not.exist');
     })
     // Show if admin
     .then(()=>{
       visitPrivateRoom('admin');
-      cy.wait('@room').then(()=> {
+      cy.wait('@messages').then(()=> {
         // Add new member
         cy.get(roomEl.addMember.btn).click();
         const newMember = sampleMembers
@@ -225,7 +225,7 @@ describe('Chat Room Page', () => {
     typeOnInput(roomEl.sendMessage.message, newMessage);
     cy.get(roomEl.sendMessage.submit).click();
     cy.wait('@sendMessage').then((interception)=>{
-      const data = interception.response?.body.success;
+      const data = interception.response?.body;
       cy.wrap(data.data.message).should('eq', newMessage);
       // Message should be empty on success
       cy.get(roomEl.sendMessage.message).should('be.empty');

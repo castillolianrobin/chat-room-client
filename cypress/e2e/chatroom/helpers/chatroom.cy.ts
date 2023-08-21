@@ -5,6 +5,7 @@ import { generateChatRoom } from "../../seeders/ChatRooms";
 import { generateUser } from "../../seeders/Users";
 import { pusherMock } from "../../auth/helpers/pusher.cy";
 import { generateChatRoomMessage } from "../../seeders/ChatRoomMessages";
+import { generateUserDetail } from "../../seeders/UserDetails";
 
 /** __Seeders__ */
 
@@ -15,6 +16,10 @@ export const sampleChatRooms = [...new Array(5)].map((_,i)=>({
 export const sampleUsers = [...new Array(40)].map((_, i)=>({
   ...generateUser(i),
 }));
+
+export const sampleUserDetails = sampleUsers.map(user => ({
+  ...generateUserDetail(user.id, user.id,),
+}))
 
 export const sampleMembers = [...new Array(40)].map((_, i)=>({
   ...generateChatRoomMember(
@@ -35,7 +40,8 @@ export const sampleChatRoomsVerbose = [...sampleChatRooms].map(room=>({
         .filter(user=>user.id === mem.user_id)
         .shift();
       return {
-        chat_room_members: mem,
+        chat_room_membership: mem,
+        user_details: sampleUserDetails.filter(ud=>ud.user_id === user?.id).shift(),
         ...user,
       };
     }),

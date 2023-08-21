@@ -20,6 +20,7 @@ const { user } = useAuthStore()
 <template>
   <div
     class="flex items-center gap-2"  
+    aria-label="room member"
   >
     <img 
       v-if="props.profile_img_url"
@@ -30,7 +31,6 @@ const { user } = useAuthStore()
 
     <AppChip
       v-else
-      aria-label="room member"
       class="w-6 aspect-square relative"
       :color="props.id === user?.id ? 'primary-500' : 'secondary-500'"
     >
