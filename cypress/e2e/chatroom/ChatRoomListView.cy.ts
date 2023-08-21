@@ -4,7 +4,7 @@ import { sampleChatRooms, interceptChatRoomCreate, interceptChatRooms } from "./
 
 
 describe('Chat Room List Page', () => {
-  const { token, user } = loginSuccessResponse.success.data;
+  const { token, user } = loginSuccessResponse.data;
   beforeEach(() => {
     window.localStorage.setItem('_auth_user', JSON.stringify({ ...user, token }));
     cy.visit('/chat/rooms');

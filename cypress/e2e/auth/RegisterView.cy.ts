@@ -56,7 +56,7 @@ describe('Register Page', () => {
   // Submit Validation
   it('if user is existing', () => {
     goToRegistration();
-    const existingUser = loginSuccessResponse.success.data.user;
+    const existingUser = loginSuccessResponse.data.user;
     const _registerForm: RegisterForm = {
       email: existingUser.email,
       password: 'pass',

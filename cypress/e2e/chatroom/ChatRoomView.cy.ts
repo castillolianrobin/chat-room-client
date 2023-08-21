@@ -85,7 +85,7 @@ describe('Chat Room Page', () => {
     }
   }
   
-  const { token, user } = loginSuccessResponse.success.data;
+  const { token, user } = loginSuccessResponse.data;
   beforeEach(() => {
     window.localStorage.setItem('_auth_user', JSON.stringify({ ...user, token }));
   });
