@@ -95,12 +95,12 @@ describe('Chat Room Page', () => {
     cy.wait('@room').then((interception)=>{
       const body = interception.response?.body;
       // Room Name is displayed
-      cy.get(roomEl.name).contains(body.success.data.name);
+      cy.get(roomEl.name).contains(body.data.name);
     });
 
     cy.wait('@messages').then((interception)=>{
       // Messages are displayed
-      const messages = interception.response?.body.success.data as ReturnType<typeof generateChatRoomMessage>[];
+      const messages = interception.response?.body.data as ReturnType<typeof generateChatRoomMessage>[];
       
       for(const i in messages) {
         const message = messages[i];

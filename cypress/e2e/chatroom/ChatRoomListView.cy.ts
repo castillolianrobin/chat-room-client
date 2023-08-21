@@ -57,7 +57,7 @@ describe('Chat Room List Page', () => {
     cy.get(createRoomForm).get('button[type="submit"]').click();
     // create public room
     cy.wait('@createRoom').then((interception) => {
-      const data   = interception.response?.body.success.data; 
+      const data   = interception.response?.body.data; 
       cy.wrap(data).its('name').should('eq', roomName);
       cy.wrap(data).its('is_private').should('eq', false);
       // Close when done
@@ -72,7 +72,7 @@ describe('Chat Room List Page', () => {
     cy.get(createRoomForm).get('button[type="submit"]').click();
     // create private room
     cy.wait('@createRoom').then((interception) => {
-      const data   = interception.response?.body.success.data; 
+      const data   = interception.response?.body.data; 
       cy.wrap(data).its('name').should('eq', roomName);
       cy.wrap(data).its('is_private').should('eq', true);
       // Close when done
